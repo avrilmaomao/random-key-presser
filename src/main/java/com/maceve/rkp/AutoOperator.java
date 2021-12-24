@@ -14,8 +14,10 @@ import java.time.temporal.ChronoUnit;
 public class AutoOperator {
     Robot robot;
 
-    private final int MIN_INTERVAL = 10;
-    private final int MAX_INTERVAL = 2000;
+    private final int MIN_INTERVAL = 1000;
+    private final int MAX_INTERVAL = 5000;
+
+
 
 
     {
@@ -29,6 +31,11 @@ public class AutoOperator {
     public void randomKeyPress(int miliSeconds){
         int totalPressed = 0;
         RandomKeyProvider keyProvider = new RandomKeyProvider();
+        keyProvider.allowAlphabetKeys();
+        keyProvider.allowAssistKeys();
+        keyProvider.allowNumKeys();
+        keyProvider.allowSymbolKeys();
+
         Instant start = Instant.now();
         while (true){
             Instant current = Instant.now();

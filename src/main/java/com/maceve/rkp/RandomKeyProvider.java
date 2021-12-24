@@ -73,24 +73,58 @@ public class RandomKeyProvider {
             VK_SPACE, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN
     };
 
-    protected int[] ALL_KEYS;
+    protected int[] allowedKeys = {};
 
-    {
-        ALL_KEYS = ArrayUtils.addAll(NUM_KEYS, ALPHABET_KEYS);
-        ALL_KEYS = ArrayUtils.addAll(ALL_KEYS, SYMBOL_KEYS);
-        ALL_KEYS = ArrayUtils.addAll(ALL_KEYS, FUNCTION_KEYS);
-        ALL_KEYS = ArrayUtils.addAll(ALL_KEYS, ASSIST_KEYS);
-        ALL_KEYS = ArrayUtils.addAll(ALL_KEYS, ACTION_KEYS);
-    }
+    protected int[] ALL_KEYS;
 
     public RobotAction makeAction(){
         int randomKeyCode = fetchKeyCodes(1)[0];
         return new KeyPressAction(randomKeyCode);
     }
 
+    public void allowNumKeys(){
+        this.allowedKeys = ArrayUtils.addAll(this.allowedKeys, NUM_KEYS);
+    }
+
+    public void allowSymbolKeys(){
+        this.allowedKeys = ArrayUtils.addAll(this.allowedKeys, SYMBOL_KEYS);
+    }
+
+    public void allowAssistKeys(){
+        this.allowedKeys = ArrayUtils.addAll(this.allowedKeys, ASSIST_KEYS);
+    }
+
+    public void allowActionKeys(){
+        this.allowedKeys = ArrayUtils.addAll(this.allowedKeys, ACTION_KEYS);
+    }
+
+    public void allowAll(){
+        this.allowedKeys = ArrayUtils.addAll(NUM_KEYS, ALPHABET_KEYS);
+        this.allowedKeys = ArrayUtils.addAll(ALL_KEYS, SYMBOL_KEYS);
+        this.allowedKeys = ArrayUtils.addAll(ALL_KEYS, FUNCTION_KEYS);
+        this.allowedKeys = ArrayUtils.addAll(ALL_KEYS, ASSIST_KEYS);
+        this.allowedKeys = ArrayUtils.addAll(ALL_KEYS, ACTION_KEYS);
+    }
+
+    public void allowAlphabetKeys(){
+        this.allowedKeys = ArrayUtils.addAll(this.allowedKeys, ALPHABET_KEYS);
+    }
+
+    public void allowFunctionKeys(){
+        this.allowedKeys = ArrayUtils.addAll(this.allowedKeys, FUNCTION_KEYS);
+    }
+
+
+
+    public void clearAllowed(){
+        this.allowedKeys = new int[]{0};
+    }
+
+
 
      public int[] fetchKeyCodes(int num){
-         return pickRandomN(ALL_KEYS, num);
+        assert this.allowedKeys.length > 0;
+        return pickRandomN(this.allowedKeys, num);
      }
 
      @AllArgsConstructor

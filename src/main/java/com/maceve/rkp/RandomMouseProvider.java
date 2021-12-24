@@ -10,15 +10,32 @@ import java.awt.event.MouseEvent;
 @Slf4j
 public class RandomMouseProvider {
 
+    private int xStart;
+    private int xEnd;
+    private int yStart;
+    private int yEnd;
+
+    public void setLeftUpperPoint(int x, int y){
+        this.xStart = x;
+        this.yStart = y;
+    }
+
+    public void setRightBottomPoint(int x, int y){
+        this.xEnd = x;
+        this.yEnd = y;
+    }
 
     public RobotAction generateAction(){
+        assert xStart<=xEnd;
+        assert yStart<=yEnd;
+
         RobotAction action;
         int actionNum = RandomUtils.nextInt(0, 9);
         if(actionNum < 3){
-            action = new MouseWheelAction(60 - RandomUtils.nextInt(0, 120));
+            action = new MouseWheelAction(1 - RandomUtils.nextInt(0, 3));
         }else{
-            int mouseButton = actionNum < 3 ? MouseEvent.BUTTON2_DOWN_MASK : MouseEvent.BUTTON1_DOWN_MASK;
-            action = new MouseClickAction(RandomUtils.nextInt(0,600), RandomUtils.nextInt(0, 800), mouseButton);
+            int mouseButton = actionNum < 5 ? MouseEvent.BUTTON2_DOWN_MASK : MouseEvent.BUTTON1_DOWN_MASK;
+            action = new MouseClickAction(RandomUtils.nextInt(xStart,xEnd), RandomUtils.nextInt(yStart,yEnd), mouseButton);
         }
         return action;
     }
